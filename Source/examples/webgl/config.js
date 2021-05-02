@@ -18,6 +18,12 @@ var exampleConfig = {
                         name_en: "terrainAndImagery",
                         thumbnail: "terrainAndImagery.jpg",
                         fileName: "terrainAndImagery"
+                    },
+                    {
+                        name: "地形影像(Cesium)",
+                        name_en: "terrainAndImageryCS",
+                        thumbnail: "terrainAndImagery.jpg",
+                        fileName: "terrainAndImageryCS"
                     }
                 ]
             },
