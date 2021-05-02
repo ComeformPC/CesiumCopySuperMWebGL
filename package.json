@@ -1,0 +1,21 @@
+{
+  "name": "cesiumcopysupermwebgl",
+  "version": "1.0.0",
+  "description": "使用原生Cesium仿照Supermap For WebGL列子",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "gulp start"
+  },
+  "keywords": [
+    "Cesium",
+    "WebGL"
+  ],
+  "author": "LS",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "browser-sync": "^2.26.14",
+    "gulp": "^4.0.2"
+  }
+}
