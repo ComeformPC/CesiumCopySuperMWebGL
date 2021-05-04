@@ -55,7 +55,14 @@
 <script>
 function onload(Cesium) {
     var viewer = new Cesium.Viewer('cesiumContainer',{
-        terrainProvider:Cesium.createWorldTerrain()
+        // terrainProvider:new Cesium.CesiumTerrainProvider({
+        //     url:Cesium.buildModuleUrl("Assets/Terrains/SiChuan")
+        // }),
+        terrainProvider:Cesium.createWorldTerrain(),
+        baseLayerPicker:false,
+        imageryProvider:new Cesium.SingleTileImageryProvider({
+            url:Cesium.buildModuleUrl("Assets/Textures/GlobalBkLayer.jpg")
+        })
     });
     
     viewer.scene.camera.setView({
@@ -66,6 +73,7 @@ function onload(Cesium) {
             roll : 2.708944180085382e-13
         }
     });
+    var layer=viewer.imageryLayers.addImageryProvider(Cesium.createWorldImagery());
     var viewModel = {
         color : '#ffffff',
         tolerance : 0
@@ -79,20 +87,26 @@ function onload(Cesium) {
     });
     $("#colorPicker").on('change', function(event) {
         var selectedColor = Cesium.Color.fromCssColorString(event.target.value);
-        layer.transparentBackColor = selectedColor;
+        if(!selectedColor) selectedColor=Cesium.Color.WHITE;
+        //设置颜色透明度，影像地图中越靠近选择的颜色的部分首先
+        //收到颜色透明阈值影像
+        layer.colorToAlpha = selectedColor;
     });
+    $("#colorPicker").trigger('change');
     Cesium.knockout.track(viewModel);
     var toolbar = document.getElementById('toolbar');
     Cesium.knockout.applyBindings(viewModel, toolbar);
     Cesium.knockout.getObservable(viewModel,'tolerance').subscribe(
         function(newValue) {
-            layer.transparentBackColorTolerance = newValue;
+            //颜色透明阈值，0.0不透明，1.0透明
+            layer.colorToAlphaThreshold = newValue;
         }
     );
     $("#terrainVisible").click(function(){
         viewer.terrainProvider=Cesium.createWorldTerrain();
     });
     $("#terrainUnvisible").click(function(){
+        debugger;
         //为地球赋予一个简单的地形，它只是细分地球表面
         //直接设置terrainProvider=null会报错
         viewer.terrainProvider=new Cesium.EllipsoidTerrainProvider();
